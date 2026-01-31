@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blitz Response - Utility Dodge & Clear</title>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&family=Exo+2:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Cloud9 Branding */
+            --c9-blue: #03A9F4;
+            --c9-white: #FFFFFF;
+            
+            /* JetBrains Theme */
+            --jb-background: #2B2B2B;
+            --jb-text: #A9B7C6;
+            --jb-accent: #4E9A06;
+            
+            /* VALORANT Colors (Generic) */
+            --valorant-red: #FF4655;
+            --valorant-black: #0F1923;
+            --site-green: #1F8B4D;
+            
+            /* Game Colors */
+            --enemy-red: #E74C3C;
+            --friendly-blue: #3498DB;
+            --success-green: #2ECC71;
+            --warning-orange: #F39C12;
+            
+            /* Fonts */
+            --font-heading: 'Orbitron', sans-serif;
+            --font-body: 'Rajdhani', sans-serif;
+            --font-ui: 'Exo 2', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            background: var(--jb-background);
+            color: var(--jb-text);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+        
+        /* Site Background Effects */
+        .site-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 30%;
+            width: 2px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: pulse 2s infinite;
+        }
+        
+        .site-background::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 30%;
+            width: 2px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: pulse 2s infinite 1s;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 0.3; }
+        }
+        
+        #gameCanvas {
+            display: block;
+            cursor: crosshair;
+        }
+        
+        /* UI Overlay */
+        .ui-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .ui-top {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .branding {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .c9-logo {
+            font-family: var(--font-heading);
+            font-weight: 900;
+            font-size: 24px;
+            color: var(--c9-blue);
+            text-shadow: 0 0 10px var(--c9-blue);
+        }
+        
+        .game-title {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--jb-text);
+        }
+        
+        .score-display {
+            font-family: var(--font-heading);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--c9-blue);
+            text-shadow: 0 0 10px var(--c9-blue);
+        }
+        
+        .combo-display {
+            font-family: var(--font-ui);
+            font-size: 18px;
+            color: var(--warning-orange);
+            margin-top: 5px;
+        }
+        
+        .timer-display {
+            font-family: var(--font-heading);
+            font-size: 24px;
+            color: var(--jb-text);
+            margin-top: 10px;
+        }
+        
+        .ui-right {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-align: right;
+        }
+        
+        /* Menu Screens */
+        .menu-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 25, 35, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            pointer-events: all;
+        }
+        
+        .menu-screen.hidden {
+            display: none;
+        }
+        
+        .menu-content {
+            text-align: center;
+            max-width: 600px;
+            padding: 40px;
+        }
+        
+        .menu-title {
+            font-family: var(--font-heading);
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--c9-blue);
+            text-shadow: 0 0 20px var(--c9-blue);
+            margin-bottom: 20px;
+        }
+        
+        .menu-subtitle {
+            font-family: var(--font-body);
+            font-size: 20px;
+            color: var(--jb-text);
+            margin-bottom: 30px;
+        }
+        
+        .instructions {
+            background: rgba(43, 43, 43, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        
+        .instructions h3 {
+            font-family: var(--font-heading);
+            color: var(--c9-blue);
+            margin-bottom: 15px;
+        }
+        
+        .instructions ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .instructions li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .instructions li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: var(--c9-blue);
+        }
+        
+        .btn {
+            font-family: var(--font-ui);
+            font-size: 18px;
+            font-weight: 600;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, var(--c9-blue) 0%, #0288D1 100%);
+            color: var(--c9-white);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(3, 169, 244, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(3, 169, 244, 0.5);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .leaderboard {
+            background: rgba(43, 43, 43, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .leaderboard h3 {
+            font-family: var(--font-heading);
+            color: var(--c9-blue);
+            margin-bottom: 15px;
+        }
+        
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(169, 183, 198, 0.2);
+        }
+        
+        .leaderboard-item:last-child {
+            border-bottom: none;
+        }
+        
+        .achievement {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(3, 169, 244, 0.95);
+            color: white;
+            padding: 30px 50px;
+            border-radius: 10px;
+            font-family: var(--font-heading);
+            font-size: 32px;
+            z-index: 200;
+            animation: achievementPop 2s forwards;
+            pointer-events: none;
+        }
+        
+        @keyframes achievementPop {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            20% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+            80% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+        }
+        
+        .power-up-indicator {
+            position: absolute;
+            top: 100px;
+            left: 20px;
+            background: rgba(243, 156, 18, 0.9);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-family: var(--font-ui);
+            font-weight: 600;
+            z-index: 50;
+            animation: pulse 1s infinite;
+        }
+        
+        .game-over-stats {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+        
+        .game-over-stats div {
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            color: var(--jb-text);
+            opacity: 0.7;
+        }
+        
+        .stat-value {
+            color: var(--c9-blue);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container site-background">
+        <canvas id="gameCanvas"></canvas>
+        
+        <!-- UI Overlay -->
+        <div class="ui-overlay">
+            <div class="ui-top">
+                <div class="branding">
+                    <div class="c9-logo">C9</div>
+                    <div class="game-title">Blitz Response</div>
+                </div>
+                <div class="ui-right">
+                    <div class="score-display" id="scoreDisplay">0</div>
+                    <div class="combo-display" id="comboDisplay"></div>
+                    <div class="timer-display" id="timerDisplay">90</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Start Menu -->
+        <div class="menu-screen" id="startMenu">
+            <div class="menu-content">
+                <h1 class="menu-title">Blitz Response</h1>
+                <p class="menu-subtitle">Utility Dodge & Clear</p>
+                
+                <div class="instructions">
+                    <h3>How to Play</h3>
+                    <ul>
+                        <li>Click on <span style="color: var(--enemy-red);">enemy utilities</span> (red) to clear them</li>
+                        <li>Avoid clicking <span style="color: var(--c9-blue);">friendly utilities</span> (blue)</li>
+                        <li>Build combos for bonus points</li>
+                        <li>Game lasts 90 seconds</li>
+                        <li>Survive as long as possible!</li>
+                    </ul>
+                </div>
+                
+                <button class="btn" id="startBtn">Start Game</button>
+                
+                <div class="leaderboard" id="startLeaderboard">
+                    <h3>Top Scores</h3>
+                    <div id="leaderboardList"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Game Over Menu -->
+        <div class="menu-screen hidden" id="gameOverMenu">
+            <div class="menu-content">
+                <h1 class="menu-title">Game Over</h1>
+                
+                <div class="game-over-stats">
+                    <div>
+                        <span class="stat-label">Final Score: </span>
+                        <span class="stat-value" id="finalScore">0</span>
+                    </div>
+                    <div>
+                        <span class="stat-label">Max Combo: </span>
+                        <span class="stat-value" id="maxCombo">0</span>
+                    </div>
+                    <div>
+                        <span class="stat-label">Enemies Cleared: </span>
+                        <span class="stat-value" id="enemiesCleared">0</span>
+                    </div>
+                    <div id="newHighScore" style="display: none; color: var(--success-green); margin-top: 15px; font-weight: 700;">
+                        🎉 New High Score! 🎉
+                    </div>
+                </div>
+                
+                <button class="btn" id="playAgainBtn">Play Again</button>
+                
+                <div class="leaderboard" id="gameOverLeaderboard">
+                    <h3>Top Scores</h3>
+                    <div id="gameOverLeaderboardList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Game Configuration
+        const CONFIG = {
+            GAME_DURATION: 90, // seconds
+            BASE_POINTS: 10,
+            FRIENDLY_FIRE_PENALTY: 5,
+            COMBO_MULTIPLIER_INCREMENT: 0.1,
+            MAX_COMBO_MULTIPLIER: 5.0,
+            DIFFICULTY_INTERVAL: 15, // seconds
+            DIFFICULTY_INCREMENT: 0.5,
+            SPAWN_RATE_BASE: 1.0, // utilities per second
+            ENEMY_RATIO: 0.7, // 70% enemy, 30% friendly
+            MAX_UTILITIES: 25,
+            UTILITY_SIZE: 60,
+            UTILITY_LIFETIME: 5 // seconds
+        };
+        
+        // Asset Icons
+        const UTILITY_ICONS = {
+            smoke: '<i class="fas fa-smog"></i>',
+            molly: '<i class="fas fa-fire"></i>',
+            flash: '<i class="fas fa-bolt"></i>',
+            trip: '<i class="fas fa-eye-slash"></i>',
+            friendly: '<i class="fas fa-shield-alt"></i>'
+        };
+        
+        // Game State
+        class GameState {
+            constructor() {
+                this.score = 0;
+                this.combo = 0;
+                this.multiplier = 1.0;
+                this.timer = CONFIG.GAME_DURATION;
+                this.difficulty = 1.0;
+                this.isGameOver = false;
+                this.gameStartTime = 0;
+                this.enemiesCleared = 0;
+                this.maxCombo = 0;
+                this.mistakes = 0;
+                this.powerUps = {
+                    doubleScore: false,
+                    freezeTime: false,
+                    clearAll: false
+                };
+                this.powerUpEndTime = 0;
+            }
+            
+            update(deltaTime) {
+                if (this.isGameOver) return;
+                
+                // Update timer (unless frozen)
+                if (!this.powerUps.freezeTime) {
+                    this.timer -= deltaTime;
+                }
+                
+                // Update difficulty every 15 seconds
+                const elapsed = (Date.now() - this.gameStartTime) / 1000;
+                this.difficulty = 1.0 + Math.floor(elapsed / CONFIG.DIFFICULTY_INTERVAL) * CONFIG.DIFFICULTY_INCREMENT;
+                
+                // Check power-up expiration
+                if (this.powerUpEndTime > 0 && Date.now() > this.powerUpEndTime) {
+                    this.powerUps = {
+                        doubleScore: false,
+                        freezeTime: false,
+                        clearAll: false
+                    };
+                    this.powerUpEndTime = 0;
+                }
+                
+                if (this.timer <= 0) {
+                    this.timer = 0;
+                    this.isGameOver = true;
+                }
+            }
+            
+            addScore(points) {
+                const finalPoints = this.powerUps.doubleScore ? points * 2 : points;
+                this.score += Math.floor(finalPoints);
+            }
+            
+            increaseCombo() {
+                this.combo++;
+                this.maxCombo = Math.max(this.maxCombo, this.combo);
+                this.multiplier = Math.min(
+                    CONFIG.MAX_COMBO_MULTIPLIER,
+                    1.0 + (this.combo * CONFIG.COMBO_MULTIPLIER_INCREMENT)
+                );
+            }
+            
+            resetCombo() {
+                this.combo = 0;
+                this.multiplier = 1.0;
+            }
+        }
+        
+        // Utility Class
+        class Utility {
+            constructor(type, isEnemy, position) {
+                this.type = type;
+                this.isEnemy = isEnemy;
+                this.position = position;
+                this.size = CONFIG.UTILITY_SIZE;
+                this.baseSize = CONFIG.UTILITY_SIZE;
+                this.rotation = 0;
+                this.animationFrame = 0;
+                this.lifetime = 0;
+                this.maxLifetime = CONFIG.UTILITY_LIFETIME;
+                this.id = Math.random().toString(36).substr(2, 9);
+            }
+            
+            update(deltaTime) {
+                this.lifetime += deltaTime;
+                this.animationFrame += deltaTime * 5;
+                this.rotation += deltaTime * 30; // degrees per second
+                
+                // Pulsing effect
+                this.size = this.baseSize * (1 + Math.sin(this.animationFrame) * 0.15);
+            }
+            
+            isPointInside(x, y) {
+                const dx = x - this.position.x;
+                const dy = y - this.position.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                return distance <= this.size / 2;
+            }
+            
+            render(ctx) {
+                const alpha = 1 - (this.lifetime / this.maxLifetime);
+                if (alpha <= 0) return;
+                
+                ctx.save();
+                ctx.translate(this.position.x, this.position.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                
+                // Draw circle background
+                const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size / 2);
+                
+                if (this.isEnemy) {
+                    gradient.addColorStop(0, `rgba(231, 76, 60, ${alpha})`);
+                    gradient.addColorStop(1, `rgba(192, 57, 43, ${alpha})`);
+                } else {
+                    gradient.addColorStop(0, `rgba(52, 152, 219, ${alpha})`);
+                    gradient.addColorStop(1, `rgba(41, 128, 185, ${alpha})`);
+                }
+                
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Draw border
+                ctx.strokeStyle = this.isEnemy ? `rgba(231, 76, 60, ${alpha})` : `rgba(3, 169, 244, ${alpha})`;
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                
+                // Draw icon (simplified - using text/emoji as fallback)
+                ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+                ctx.font = `${this.size * 0.4}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                
+                const iconMap = {
+                    smoke: '☁',
+                    molly: '🔥',
+                    flash: '⚡',
+                    trip: '⚠',
+                    friendly: '🛡'
+                };
+                
+                ctx.fillText(iconMap[this.type] || '?', 0, 0);
+                
+                ctx.restore();
+            }
+        }
+        
+        // Utility Spawner
+        class UtilitySpawner {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.activeUtilities = [];
+                this.timeSinceLastSpawn = 0;
+            }
+            
+            update(deltaTime, difficulty) {
+                // Update all utilities
+                this.activeUtilities.forEach(utility => utility.update(deltaTime));
+                
+                // Remove expired utilities
+                this.activeUtilities = this.activeUtilities.filter(
+                    utility => utility.lifetime < utility.maxLifetime
+                );
+                
+                // Spawn new utilities
+                const spawnRate = CONFIG.SPAWN_RATE_BASE * difficulty;
+                const spawnInterval = 1 / spawnRate;
+                this.timeSinceLastSpawn += deltaTime;
+                
+                if (this.timeSinceLastSpawn >= spawnInterval && this.activeUtilities.length < CONFIG.MAX_UTILITIES) {
+                    this.spawnUtility();
+                    this.timeSinceLastSpawn = 0;
+                }
+            }
+            
+            spawnUtility() {
+                const isEnemy = Math.random() < CONFIG.ENEMY_RATIO;
+                const types = ['smoke', 'molly', 'flash', 'trip'];
+                const type = types[Math.floor(Math.random() * types.length)];
+                
+                const margin = CONFIG.UTILITY_SIZE;
+                const position = {
+                    x: margin + Math.random() * (this.canvas.width - margin * 2),
+                    y: margin + Math.random() * (this.canvas.height - margin * 2)
+                };
+                
+                const utility = new Utility(type, isEnemy, position);
+                this.activeUtilities.push(utility);
+            }
+            
+            removeUtility(utility) {
+                const index = this.activeUtilities.indexOf(utility);
+                if (index > -1) {
+                    this.activeUtilities.splice(index, 1);
+                }
+            }
+            
+            clearAll() {
+                this.activeUtilities = [];
+            }
+        }
+        
+        // Collision Detector
+        class CollisionDetector {
+            findUtilityAt(x, y, utilities) {
+                // Check in reverse order (top-most first)
+                for (let i = utilities.length - 1; i >= 0; i--) {
+                    if (utilities[i].isPointInside(x, y)) {
+                        return utilities[i];
+                    }
+                }
+                return null;
+            }
+        }
+        
+        // Leaderboard Manager
+        class LeaderboardManager {
+            constructor() {
+                this.storageKey = 'blitzResponseLeaderboard';
+                this.maxEntries = 10;
+            }
+            
+            loadLeaderboard() {
+                try {
+                    const stored = localStorage.getItem(this.storageKey);
+                    return stored ? JSON.parse(stored) : [];
+                } catch (e) {
+                    return [];
+                }
+            }
+            
+            saveScore(score, playerName = 'Player') {
+                const leaderboard = this.loadLeaderboard();
+                const entry = {
+                    score: score,
+                    playerName: playerName,
+                    date: new Date().toISOString(),
+                    timestamp: Date.now()
+                };
+                
+                leaderboard.push(entry);
+                leaderboard.sort((a, b) => b.score - a.score);
+                leaderboard.splice(this.maxEntries);
+                
+                try {
+                    localStorage.setItem(this.storageKey, JSON.stringify(leaderboard));
+                } catch (e) {
+                    console.error('Failed to save leaderboard:', e);
+                }
+                
+                return leaderboard;
+            }
+            
+            isHighScore(score) {
+                const leaderboard = this.loadLeaderboard();
+                if (leaderboard.length < this.maxEntries) return true;
+                return score > leaderboard[leaderboard.length - 1].score;
+            }
+        }
+        
+        // Achievement Manager
+        class AchievementManager {
+            checkAchievements(gameState) {
+                const achievements = [];
+                
+                // C9 Pro: 50+ combo
+                if (gameState.maxCombo >= 50) {
+                    achievements.push({
+                        name: 'C9 Pro',
+                        description: 'Achieved 50+ combo!'
+                    });
+                }
+                
+                // Perfect Retake: No mistakes
+                if (gameState.mistakes === 0 && gameState.enemiesCleared > 0) {
+                    achievements.push({
+                        name: 'Perfect Retake',
+                        description: 'No mistakes!'
+                    });
+                }
+                
+                return achievements;
+            }
+            
+            showAchievement(achievement) {
+                const div = document.createElement('div');
+                div.className = 'achievement';
+                div.innerHTML = `
+                    <div style="font-size: 48px; margin-bottom: 10px;">🏆</div>
+                    <div>${achievement.name}</div>
+                    <div style="font-size: 18px; margin-top: 5px;">${achievement.description}</div>
+                `;
+                document.body.appendChild(div);
+                
+                setTimeout(() => {
+                    div.remove();
+                }, 2000);
+            }
+        }
+        
+        // Main Game Class
+        class Game {
+            constructor() {
+                this.canvas = document.getElementById('gameCanvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.state = new GameState();
+                this.spawner = new UtilitySpawner(this.canvas);
+                this.collisionDetector = new CollisionDetector();
+                this.leaderboardManager = new LeaderboardManager();
+                this.achievementManager = new AchievementManager();
+                this.isRunning = false;
+                this.lastFrameTime = 0;
+                this.particles = [];
+                
+                this.setupCanvas();
+                this.setupEventListeners();
+                this.updateLeaderboard();
+            }
+            
+            setupCanvas() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+                
+                window.addEventListener('resize', () => {
+                    this.canvas.width = window.innerWidth;
+                    this.canvas.height = window.innerHeight;
+                });
+            }
+            
+            setupEventListeners() {
+                this.canvas.addEventListener('click', (e) => {
+                    if (!this.isRunning || this.state.isGameOver) return;
+                    
+                    const rect = this.canvas.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    this.handleClick(x, y);
+                });
+                
+                document.getElementById('startBtn').addEventListener('click', () => {
+                    this.startGame();
+                });
+                
+                document.getElementById('playAgainBtn').addEventListener('click', () => {
+                    this.startGame();
+                });
+                
+                // Power-up keys (for testing, can be removed)
+                document.addEventListener('keydown', (e) => {
+                    if (!this.isRunning) return;
+                    
+                    if (e.key === '1') this.activatePowerUp('doubleScore');
+                    if (e.key === '2') this.activatePowerUp('freezeTime');
+                    if (e.key === '3') this.activatePowerUp('clearAll');
+                });
+            }
+            
+            startGame() {
+                this.state = new GameState();
+                this.spawner.clearAll();
+                this.state.gameStartTime = Date.now();
+                this.isRunning = true;
+                
+                document.getElementById('startMenu').classList.add('hidden');
+                document.getElementById('gameOverMenu').classList.add('hidden');
+                
+                this.lastFrameTime = performance.now();
+                this.gameLoop();
+            }
+            
+            handleClick(x, y) {
+                const utility = this.collisionDetector.findUtilityAt(
+                    x, y,
+                    this.spawner.activeUtilities
+                );
+                
+                if (!utility) return;
+                
+                if (utility.isEnemy) {
+                    // Correct clear
+                    const points = Math.floor(CONFIG.BASE_POINTS * this.state.multiplier);
+                    this.state.addScore(points);
+                    this.state.increaseCombo();
+                    this.state.enemiesCleared++;
+                    
+                    // Check for achievements
+                    const achievements = this.achievementManager.checkAchievements(this.state);
+                    achievements.forEach(ach => {
+                        if (!this.state.achievementsShown) {
+                            this.achievementManager.showAchievement(ach);
+                        }
+                    });
+                    this.state.achievementsShown = true;
+                    
+                } else {
+                    // Friendly fire
+                    this.state.score = Math.max(0, this.state.score - CONFIG.FRIENDLY_FIRE_PENALTY);
+                    this.state.resetCombo();
+                    this.state.mistakes++;
+                }
+                
+                this.spawner.removeUtility(utility);
+                this.createParticles(utility.position, utility.isEnemy);
+            }
+            
+            activatePowerUp(type) {
+                this.state.powerUps[type] = true;
+                this.state.powerUpEndTime = Date.now() + 5000; // 5 seconds
+                
+                if (type === 'clearAll') {
+                    this.spawner.clearAll();
+                }
+            }
+            
+            createParticles(position, isEnemy) {
+                for (let i = 0; i < 10; i++) {
+                    this.particles.push({
+                        x: position.x,
+                        y: position.y,
+                        vx: (Math.random() - 0.5) * 200,
+                        vy: (Math.random() - 0.5) * 200,
+                        life: 1.0,
+                        color: isEnemy ? '#E74C3C' : '#03A9F4'
+                    });
+                }
+            }
+            
+            updateParticles(deltaTime) {
+                this.particles = this.particles.filter(particle => {
+                    particle.x += particle.vx * deltaTime;
+                    particle.y += particle.vy * deltaTime;
+                    particle.life -= deltaTime * 2;
+                    return particle.life > 0;
+                });
+            }
+            
+            renderParticles() {
+                this.particles.forEach(particle => {
+                    this.ctx.save();
+                    this.ctx.globalAlpha = particle.life;
+                    this.ctx.fillStyle = particle.color;
+                    this.ctx.beginPath();
+                    this.ctx.arc(particle.x, particle.y, 3, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    this.ctx.restore();
+                });
+            }
+            
+            gameLoop() {
+                if (!this.isRunning) return;
+                
+                const currentTime = performance.now();
+                const deltaTime = Math.min((currentTime - this.lastFrameTime) / 1000, 0.1);
+                this.lastFrameTime = currentTime;
+                
+                // Update
+                this.state.update(deltaTime);
+                this.spawner.update(deltaTime, this.state.difficulty);
+                this.updateParticles(deltaTime);
+                
+                // Render
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // Draw utilities
+                this.spawner.activeUtilities.forEach(utility => utility.render(this.ctx));
+                
+                // Draw particles
+                this.renderParticles();
+                
+                // Update UI
+                this.updateUI();
+                
+                // Check game over
+                if (this.state.isGameOver) {
+                    this.endGame();
+                } else {
+                    requestAnimationFrame(() => this.gameLoop());
+                }
+            }
+            
+            updateUI() {
+                document.getElementById('scoreDisplay').textContent = this.state.score.toLocaleString();
+                
+                if (this.state.combo > 0) {
+                    document.getElementById('comboDisplay').textContent = 
+                        `Combo: ${this.state.combo}x (${this.state.multiplier.toFixed(1)}x)`;
+                } else {
+                    document.getElementById('comboDisplay').textContent = '';
+                }
+                
+                document.getElementById('timerDisplay').textContent = 
+                    Math.ceil(this.state.timer).toString();
+                
+                // Power-up indicator
+                let powerUpText = '';
+                if (this.state.powerUps.doubleScore) powerUpText += '2x Score! ';
+                if (this.state.powerUps.freezeTime) powerUpText += 'Freeze! ';
+                if (this.state.powerUps.clearAll) powerUpText += 'Clear All! ';
+                
+                let indicator = document.getElementById('powerUpIndicator');
+                if (powerUpText && !indicator) {
+                    indicator = document.createElement('div');
+                    indicator.id = 'powerUpIndicator';
+                    indicator.className = 'power-up-indicator';
+                    document.querySelector('.game-container').appendChild(indicator);
+                }
+                if (indicator) {
+                    indicator.textContent = powerUpText;
+                    if (!powerUpText) indicator.remove();
+                }
+            }
+            
+            endGame() {
+                this.isRunning = false;
+                
+                // Save to leaderboard
+                const isHighScore = this.leaderboardManager.isHighScore(this.state.score);
+                this.leaderboardManager.saveScore(this.state.score);
+                
+                // Update game over screen
+                document.getElementById('finalScore').textContent = this.state.score.toLocaleString();
+                document.getElementById('maxCombo').textContent = this.state.maxCombo;
+                document.getElementById('enemiesCleared').textContent = this.state.enemiesCleared;
+                
+                if (isHighScore) {
+                    document.getElementById('newHighScore').style.display = 'block';
+                } else {
+                    document.getElementById('newHighScore').style.display = 'none';
+                }
+                
+                // Check achievements
+                const achievements = this.achievementManager.checkAchievements(this.state);
+                achievements.forEach(ach => {
+                    this.achievementManager.showAchievement(ach);
+                });
+                
+                // Show game over menu
+                setTimeout(() => {
+                    document.getElementById('gameOverMenu').classList.remove('hidden');
+                    this.updateLeaderboard('gameOverLeaderboardList');
+                }, 1000);
+            }
+            
+            updateLeaderboard(listId = 'leaderboardList') {
+                const leaderboard = this.leaderboardManager.loadLeaderboard();
+                const listElement = document.getElementById(listId);
+                
+                if (leaderboard.length === 0) {
+                    listElement.innerHTML = '<div style="opacity: 0.5;">No scores yet</div>';
+                    return;
+                }
+                
+                listElement.innerHTML = leaderboard.map((entry, index) => `
+                    <div class="leaderboard-item">
+                        <span>${index + 1}. ${entry.playerName}</span>
+                        <span style="color: var(--c9-blue); font-weight: 700;">${entry.score.toLocaleString()}</span>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        // Initialize game when page loads
+        window.addEventListener('load', () => {
+            const game = new Game();
+        });
+    </script>
+</body>
+</html>
+
