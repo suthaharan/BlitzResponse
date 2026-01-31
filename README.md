@@ -75,6 +75,11 @@ A fast-paced VALORANT-themed reflex game designed for arcade-style booth fun at 
 - **Kenney.nl** - Game sound packs (Public Domain)
 - **Mixkit.co** - High-quality sound effects
 
+### Attribution
+- See **CREDITS.txt** file for complete asset attribution
+- All assets used are under Creative Commons or open licenses
+- Credits menu available in-game via Settings → Credits
+
 ### Deployment
 - **GitHub Pages** - Upload single HTML file
 - **Any Static Hosting** - Netlify, Vercel, Cloudflare Pages

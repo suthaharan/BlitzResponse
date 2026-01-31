@@ -62,11 +62,15 @@
             position: relative;
             width: 100vw;
             height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* Background Themes */
+        .bg-valorant-site {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
         }
         
-        /* Site Background Effects */
-        .site-background::before {
+        .bg-valorant-site::before {
             content: '';
             position: absolute;
             top: 0;
@@ -77,7 +81,7 @@
             animation: pulse 2s infinite;
         }
         
-        .site-background::after {
+        .bg-valorant-site::after {
             content: '';
             position: absolute;
             top: 0;
@@ -88,9 +92,136 @@
             animation: pulse 2s infinite 1s;
         }
         
+        .bg-grid-tech {
+            background: #0F1923;
+            background-image: 
+                linear-gradient(rgba(3, 169, 244, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(3, 169, 244, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            position: relative;
+        }
+        
+        .bg-grid-tech::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(3, 169, 244, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(31, 139, 77, 0.1) 0%, transparent 50%);
+        }
+        
+        .bg-neon-cyber {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0033 50%, #0a0a0a 100%);
+            position: relative;
+        }
+        
+        .bg-neon-cyber::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(3, 169, 244, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 70% 70%, rgba(255, 70, 85, 0.15) 0%, transparent 40%),
+                linear-gradient(45deg, transparent 48%, rgba(3, 169, 244, 0.05) 49%, rgba(3, 169, 244, 0.05) 51%, transparent 52%);
+            background-size: 100% 100%, 100% 100%, 20px 20px;
+            animation: neonShift 10s ease-in-out infinite;
+        }
+        
+        .bg-minimal-dark {
+            background: linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 100%);
+            position: relative;
+        }
+        
+        .bg-minimal-dark::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 2px 2px, rgba(169, 183, 198, 0.1) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+        
+        .bg-geometric {
+            background: #0F1923;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bg-geometric::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                linear-gradient(45deg, transparent 30%, rgba(3, 169, 244, 0.05) 50%, transparent 70%),
+                linear-gradient(-45deg, transparent 30%, rgba(31, 139, 77, 0.05) 50%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        .bg-geometric::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, rgba(3, 169, 244, 0.05) 0%, transparent 70%);
+        }
+        
+        .bg-c9-arena {
+            background: linear-gradient(135deg, #001f3f 0%, #003d7a 50%, #001f3f 100%);
+            position: relative;
+        }
+        
+        .bg-c9-arena::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(3, 169, 244, 0.03) 2px, rgba(3, 169, 244, 0.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(3, 169, 244, 0.03) 2px, rgba(3, 169, 244, 0.03) 4px);
+            background-size: 100px 100px;
+        }
+        
+        .bg-c9-arena::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            border: 2px dashed rgba(3, 169, 244, 0.2);
+            border-radius: 50%;
+            animation: pulse 3s ease-in-out infinite;
+        }
+        
         @keyframes pulse {
             0%, 100% { opacity: 0.1; }
             50% { opacity: 0.3; }
+        }
+        
+        @keyframes neonShift {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         
         #gameCanvas {
@@ -121,8 +252,9 @@
         
         .branding {
             display: flex;
-            align-items: center;
-            gap: 15px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
         }
         
         .c9-logo {
@@ -213,21 +345,62 @@
         
         .instructions {
             background: rgba(43, 43, 43, 0.8);
-            padding: 20px;
             border-radius: 10px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             text-align: left;
+            overflow: hidden;
         }
         
-        .instructions h3 {
+        .instructions-header {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            transition: background 0.3s;
+        }
+        
+        .instructions-header:hover {
+            background: rgba(3, 169, 244, 0.1);
+        }
+        
+        .instructions-header h3 {
             font-family: var(--font-heading);
             color: var(--c9-blue);
-            margin-bottom: 15px;
+            margin: 0;
+            font-size: 18px;
+        }
+        
+        .instructions-toggle {
+            color: var(--c9-blue);
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .instructions-toggle.expanded {
+            transform: rotate(180deg);
+        }
+        
+        .instructions-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .instructions-content.expanded {
+            max-height: 1000px;
+            transition: max-height 0.5s ease-in;
+        }
+        
+        .instructions-inner {
+            padding: 0 20px 20px 20px;
         }
         
         .instructions ul {
             list-style: none;
             padding-left: 0;
+            margin: 15px 0;
         }
         
         .instructions li {
@@ -361,10 +534,164 @@
             color: var(--c9-blue);
             font-weight: 700;
         }
+        
+        .player-info {
+            font-family: var(--font-ui);
+            font-size: 14px;
+            color: var(--jb-text);
+            margin-top: 5px;
+            opacity: 0.9;
+        }
+        
+        .player-name {
+            color: var(--c9-blue);
+            font-weight: 600;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .btn-secondary {
+            background: rgba(43, 43, 43, 0.8);
+            border: 2px solid var(--c9-blue);
+            color: var(--c9-blue);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(3, 169, 244, 0.2);
+        }
+        
+        .btn-danger {
+            background: rgba(231, 76, 60, 0.2);
+            border: 2px solid var(--enemy-red);
+            color: var(--enemy-red);
+        }
+        
+        .btn-danger:hover {
+            background: rgba(231, 76, 60, 0.3);
+        }
+        
+        .settings-menu {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 25, 35, 0.98);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 150;
+            pointer-events: all;
+        }
+        
+        .settings-menu.hidden {
+            display: none;
+        }
+        
+        .settings-content {
+            background: rgba(43, 43, 43, 0.9);
+            padding: 40px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        .settings-item {
+            margin: 20px 0;
+        }
+        
+        .settings-item label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--jb-text);
+            font-family: var(--font-ui);
+        }
+        
+        .settings-item input {
+            width: 100%;
+            padding: 10px;
+            background: rgba(43, 43, 43, 0.8);
+            border: 2px solid var(--c9-blue);
+            border-radius: 5px;
+            color: var(--jb-text);
+            font-family: var(--font-body);
+            font-size: 16px;
+        }
+        
+        .exit-confirmation {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(11, 25, 35, 0.98);
+            padding: 30px;
+            border-radius: 10px;
+            z-index: 200;
+            text-align: center;
+            border: 2px solid var(--c9-blue);
+        }
+        
+        .exit-confirmation.hidden {
+            display: none;
+        }
+        
+        .exit-confirmation p {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        
+        .exit-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .name-input-dialog {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(11, 25, 35, 0.98);
+            padding: 30px;
+            border-radius: 10px;
+            z-index: 200;
+            text-align: center;
+            border: 2px solid var(--c9-blue);
+            min-width: 300px;
+        }
+        
+        .name-input-dialog.hidden {
+            display: none;
+        }
+        
+        .name-input-dialog input {
+            width: 100%;
+            padding: 12px;
+            margin: 20px 0;
+            background: rgba(43, 43, 43, 0.8);
+            border: 2px solid var(--c9-blue);
+            border-radius: 5px;
+            color: var(--jb-text);
+            font-family: var(--font-body);
+            font-size: 16px;
+        }
+        
+        .name-input-dialog input:focus {
+            outline: none;
+            border-color: var(--c9-blue);
+            box-shadow: 0 0 10px rgba(3, 169, 244, 0.5);
+        }
     </style>
 </head>
 <body>
-    <div class="game-container site-background">
+    <div class="game-container bg-valorant-site" id="gameContainer">
         <canvas id="gameCanvas"></canvas>
         
         <!-- UI Overlay -->
@@ -373,11 +700,14 @@
                 <div class="branding">
                     <div class="c9-logo">C9</div>
                     <div class="game-title">Blitz Response</div>
+                    <div class="player-info" id="playerInfo">
+                        Player: <span class="player-name">Player</span>
+                    </div>
                 </div>
                 <div class="ui-right">
                     <div class="score-display" id="scoreDisplay">0</div>
                     <div class="combo-display" id="comboDisplay"></div>
-                    <div class="timer-display" id="timerDisplay">90</div>
+                    <div class="timer-display" id="timerDisplay">60</div>
                 </div>
             </div>
         </div>
@@ -389,21 +719,59 @@
                 <p class="menu-subtitle">Utility Dodge & Clear</p>
                 
                 <div class="instructions">
-                    <h3>How to Play</h3>
-                    <ul>
-                        <li>Click on <span style="color: var(--enemy-red);">enemy utilities</span> (red) to clear them</li>
-                        <li>Avoid clicking <span style="color: var(--c9-blue);">friendly utilities</span> (blue)</li>
-                        <li>Build combos for bonus points</li>
-                        <li>Game lasts 90 seconds</li>
-                        <li>Survive as long as possible!</li>
-                    </ul>
+                    <div class="instructions-header" id="instructionsToggle">
+                        <h3>How to Play</h3>
+                        <span class="instructions-toggle" id="instructionsIcon">▼</span>
+                    </div>
+                    <div class="instructions-content" id="instructionsContent">
+                        <div class="instructions-inner">
+                            <ul>
+                                <li>Click on <span style="color: var(--enemy-red);">enemy utilities</span> (red) to clear them</li>
+                                <li>Avoid clicking <span style="color: var(--c9-blue);">friendly utilities</span> (blue)</li>
+                                <li>Build combos for bonus points (see Combo Rules below)</li>
+                                <li>Game duration is configurable in <strong>Settings</strong> (default: 60 seconds)</li>
+                                <li>Survive as long as possible and aim for the highest score!</li>
+                            </ul>
+                            
+                            <div style="margin-top: 20px; padding: 15px; background: rgba(3, 169, 244, 0.1); border-left: 3px solid var(--c9-blue); border-radius: 5px;">
+                                <h4 style="color: var(--c9-blue); margin-bottom: 10px; font-family: var(--font-heading);">Combo Rules:</h4>
+                                <ul style="margin: 0; padding-left: 20px;">
+                                    <li><strong>Base Points:</strong> 10 points per correct clear</li>
+                                    <li><strong>Combo Multiplier:</strong> Each consecutive correct clear increases your multiplier by 0.1x</li>
+                                    <li><strong>Example:</strong> 
+                                        <ul style="margin-top: 5px; padding-left: 20px; font-size: 13px;">
+                                            <li>1st correct: 10 × 1.0 = <strong>10 points</strong></li>
+                                            <li>2nd correct: 10 × 1.1 = <strong>11 points</strong> (combo 1)</li>
+                                            <li>3rd correct: 10 × 1.2 = <strong>12 points</strong> (combo 2)</li>
+                                            <li>10th correct: 10 × 2.0 = <strong>20 points</strong> (combo 9)</li>
+                                            <li>40th correct: 10 × 5.0 = <strong>50 points</strong> (max multiplier reached)</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>Combo Reset:</strong> Clicking a friendly utility resets your combo to 0 and multiplier back to 1.0x</li>
+                                    <li><strong>Max Multiplier:</strong> 5.0x (reached at combo 40+)</li>
+                                </ul>
+                            </div>
+                            
+                            <p style="margin-top: 15px; font-size: 14px; opacity: 0.8;">
+                                💡 <strong>Tip:</strong> Build long combos to maximize your score! Avoid friendly utilities to keep your combo going.
+                            </p>
+                        </div>
+                    </div>
                 </div>
                 
-                <button class="btn" id="startBtn">Start Game</button>
+                <div class="btn-group">
+                    <button class="btn" id="startBtn">Start Game</button>
+                    <button class="btn btn-secondary" id="newUserBtn">New User</button>
+                    <button class="btn btn-secondary" id="settingsBtn">Settings</button>
+                </div>
                 
                 <div class="leaderboard" id="startLeaderboard">
                     <h3>Top Scores</h3>
                     <div id="leaderboardList"></div>
+                </div>
+                
+                <div style="margin-top: 20px; text-align: center; font-size: 12px; opacity: 0.6;">
+                    <a href="#" id="creditsLink" style="color: var(--jb-text); text-decoration: none;">Credits & Attribution</a>
                 </div>
             </div>
         </div>
@@ -431,7 +799,10 @@
                     </div>
                 </div>
                 
-                <button class="btn" id="playAgainBtn">Play Again</button>
+                <div class="btn-group">
+                    <button class="btn" id="playAgainBtn">Play Again</button>
+                    <button class="btn btn-secondary" id="exitBtn">Exit</button>
+                </div>
                 
                 <div class="leaderboard" id="gameOverLeaderboard">
                     <h3>Top Scores</h3>
@@ -439,12 +810,120 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Settings Menu -->
+        <div class="settings-menu hidden" id="settingsMenu">
+            <div class="settings-content">
+                <h2 class="menu-title" style="margin-bottom: 30px;">Settings</h2>
+                
+                <div class="settings-item">
+                    <label for="gameDuration">Game Duration (seconds):</label>
+                    <input type="number" id="gameDuration" min="30" max="180" value="60">
+                </div>
+                
+                <div class="settings-item">
+                    <label for="backgroundTheme">Background Theme:</label>
+                    <select id="backgroundTheme" style="width: 100%; padding: 10px; background: rgba(43, 43, 43, 0.8); border: 2px solid var(--c9-blue); border-radius: 5px; color: var(--jb-text); font-family: var(--font-body); font-size: 16px;">
+                        <option value="bg-valorant-site">VALORANT Site (Default)</option>
+                        <option value="bg-grid-tech">Grid Tech</option>
+                        <option value="bg-neon-cyber">Neon Cyber</option>
+                        <option value="bg-minimal-dark">Minimal Dark</option>
+                        <option value="bg-geometric">Geometric Pattern</option>
+                        <option value="bg-c9-arena">C9 Arena</option>
+                    </select>
+                </div>
+                
+                <div class="settings-item">
+                    <label>Sound Test:</label>
+                    <button class="btn btn-secondary" id="testSoundBtn" style="width: 100%; margin-top: 5px;">Test Sound</button>
+                    <small style="display: block; margin-top: 5px; opacity: 0.7;">Click to test if sounds are working</small>
+                </div>
+                
+                <div class="btn-group" style="margin-top: 30px;">
+                    <button class="btn" id="restartGameBtn">Restart Game</button>
+                    <button class="btn btn-danger" id="clearPlayersBtn">Clear Players</button>
+                    <button class="btn btn-secondary" id="showCreditsBtn">Credits</button>
+                    <button class="btn btn-secondary" id="closeSettingsBtn">Close</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Credits Menu -->
+        <div class="settings-menu hidden" id="creditsMenu">
+            <div class="settings-content" style="max-width: 700px; max-height: 80vh; overflow-y: auto;">
+                <h2 class="menu-title" style="margin-bottom: 30px;">Credits & Attribution</h2>
+                
+                <div style="text-align: left; line-height: 1.8;">
+                    <h3 style="color: var(--c9-blue); margin-top: 20px; margin-bottom: 10px;">Sound Effects</h3>
+                    <p>All sound effects are sourced from <strong>Freesound.org</strong> under Creative Commons licenses.</p>
+                    <p><strong>Source:</strong> <a href="https://freesound.org" target="_blank" style="color: var(--c9-blue);">https://freesound.org</a></p>
+                    <p><strong>License:</strong> Creative Commons (CC0 or CC BY)</p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>correct.mp3 - Positive feedback sound</li>
+                        <li>wrong.mp3 - Error sound for friendly fire</li>
+                        <li>combo.mp3 - Combo multiplier sound</li>
+                        <li>start.mp3 - Game start sound</li>
+                        <li>stop.mp3 - Game over sound</li>
+                    </ul>
+                    
+                    <h3 style="color: var(--c9-blue); margin-top: 30px; margin-bottom: 10px;">Icons</h3>
+                    <p><strong>Font Awesome</strong> - Icons loaded via CDN</p>
+                    <p><strong>Source:</strong> <a href="https://fontawesome.com" target="_blank" style="color: var(--c9-blue);">https://fontawesome.com</a></p>
+                    <p><strong>License:</strong> Font Awesome Free License</p>
+                    
+                    <h3 style="color: var(--c9-blue); margin-top: 30px; margin-bottom: 10px;">Fonts</h3>
+                    <p><strong>Google Fonts</strong> - Open Font License (OFL)</p>
+                    <p><strong>Source:</strong> <a href="https://fonts.google.com" target="_blank" style="color: var(--c9-blue);">https://fonts.google.com</a></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Orbitron (Headings)</li>
+                        <li>Rajdhani (Body text)</li>
+                        <li>Exo 2 (UI elements)</li>
+                    </ul>
+                    
+                    <h3 style="color: var(--c9-blue); margin-top: 30px; margin-bottom: 10px;">Original Work</h3>
+                    <p>The following are original creations:</p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Game code and logic</li>
+                        <li>Game design and mechanics</li>
+                        <li>UI/UX design</li>
+                        <li>Canvas rendering system</li>
+                    </ul>
+                    
+                    <div style="margin-top: 30px; padding: 15px; background: rgba(3, 169, 244, 0.1); border-left: 3px solid var(--c9-blue); border-radius: 5px;">
+                        <p style="margin: 0;"><strong>Note:</strong> All assets used are under Creative Commons or open licenses. See CREDITS.txt file for complete attribution details.</p>
+                    </div>
+                </div>
+                
+                <div class="btn-group" style="margin-top: 30px;">
+                    <button class="btn btn-secondary" id="closeCreditsBtn">Close</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Name Input Dialog -->
+        <div class="name-input-dialog hidden" id="nameInputDialog">
+            <h3 style="color: var(--c9-blue); margin-bottom: 10px;">Enter Your Name</h3>
+            <input type="text" id="playerNameInput" placeholder="Player Name" maxlength="20" autofocus>
+            <div class="btn-group">
+                <button class="btn" id="confirmNameBtn">Confirm</button>
+                <button class="btn btn-secondary" id="cancelNameBtn">Cancel</button>
+            </div>
+        </div>
+        
+        <!-- Exit Confirmation -->
+        <div class="exit-confirmation hidden" id="exitConfirmation">
+            <p>Are you sure you want to exit the game?</p>
+            <div class="exit-buttons">
+                <button class="btn btn-danger" id="confirmExitBtn">Yes, Exit</button>
+                <button class="btn btn-secondary" id="cancelExitBtn">Cancel</button>
+            </div>
+        </div>
     </div>
     
     <script>
         // Game Configuration
         const CONFIG = {
-            GAME_DURATION: 90, // seconds
+            GAME_DURATION: 60, // seconds (configurable)
             BASE_POINTS: 10,
             FRIENDLY_FIRE_PENALTY: 5,
             COMBO_MULTIPLIER_INCREMENT: 0.1,
@@ -458,6 +937,69 @@
             UTILITY_LIFETIME: 5 // seconds
         };
         
+        // Load game duration from localStorage
+        function loadGameDuration() {
+            try {
+                const saved = localStorage.getItem('blitzResponseGameDuration');
+                if (saved) {
+                    const duration = parseInt(saved, 10);
+                    if (duration >= 30 && duration <= 180) {
+                        CONFIG.GAME_DURATION = duration;
+                    }
+                }
+            } catch (e) {
+                console.error('Failed to load game duration:', e);
+            }
+        }
+        
+        // Save game duration to localStorage
+        function saveGameDuration(duration) {
+            try {
+                localStorage.setItem('blitzResponseGameDuration', duration.toString());
+                CONFIG.GAME_DURATION = duration;
+            } catch (e) {
+                console.error('Failed to save game duration:', e);
+            }
+        }
+        
+        // Load background theme from localStorage
+        function loadBackgroundTheme() {
+            try {
+                const stored = localStorage.getItem('blitzResponseBackgroundTheme');
+                if (stored) {
+                    return stored;
+                }
+            } catch (e) {
+                console.error('Failed to load background theme:', e);
+            }
+            return 'bg-valorant-site'; // Default
+        }
+        
+        // Save background theme to localStorage
+        function saveBackgroundTheme(theme) {
+            try {
+                localStorage.setItem('blitzResponseBackgroundTheme', theme);
+            } catch (e) {
+                console.error('Failed to save background theme:', e);
+            }
+        }
+        
+        // Apply background theme
+        function applyBackgroundTheme(theme) {
+            const container = document.getElementById('gameContainer');
+            if (container) {
+                // Remove all background classes
+                container.className = container.className.replace(/bg-\w+/g, '');
+                // Add new background class
+                container.classList.add('game-container', theme);
+            }
+        }
+        
+        // Initialize
+        loadGameDuration();
+        const initialTheme = loadBackgroundTheme();
+        applyBackgroundTheme(initialTheme);
+        
         // Asset Icons
         const UTILITY_ICONS = {
             smoke: '<i class="fas fa-smog"></i>',
@@ -466,6 +1008,164 @@
             trip: '<i class="fas fa-eye-slash"></i>',
             friendly: '<i class="fas fa-shield-alt"></i>'
         };
+        
+        // Sound Manager
+        class SoundManager {
+            constructor() {
+                this.sounds = {};
+                this.enabled = true;
+                this.volume = 0.3;
+                this.audioUnlocked = false;
+                this.loadSounds();
+                this.setupAudioUnlock();
+            }
+            
+            loadSounds() {
+                const soundFiles = {
+                    correct: 'assets/sounds/correct.mp3',
+                    wrong: 'assets/sounds/wrong.mp3',
+                    combo: 'assets/sounds/combo.mp3',
+                    start: 'assets/sounds/start.mp3',
+                    stop: 'assets/sounds/stop.mp3'
+                };
+                
+                Object.keys(soundFiles).forEach(key => {
+                    const audio = new Audio(soundFiles[key]);
+                    audio.volume = this.volume;
+                    audio.preload = 'auto';
+                    
+                    // Handle loading errors
+                    audio.addEventListener('error', (e) => {
+                        console.warn(`Sound file error for ${key}:`, soundFiles[key], e);
+                    });
+                    
+                    // Handle successful loading
+                    audio.addEventListener('canplaythrough', () => {
+                        console.log(`Sound loaded: ${key}`);
+                    });
+                    
+                    this.sounds[key] = audio;
+                });
+            }
+            
+            setupAudioUnlock() {
+                // Unlock audio on first user interaction
+                const unlockAudio = () => {
+                    if (!this.audioUnlocked) {
+                        // Try to play a silent sound to unlock audio context
+                        const unlockSound = this.sounds['correct'] || this.sounds['start'];
+                        if (unlockSound) {
+                            unlockSound.play().then(() => {
+                                unlockSound.pause();
+                                unlockSound.currentTime = 0;
+                                this.audioUnlocked = true;
+                                console.log('Audio unlocked');
+                            }).catch(err => {
+                                console.warn('Audio unlock failed:', err);
+                            });
+                        }
+                    }
+                };
+                
+                // Unlock on any user interaction
+                document.addEventListener('click', unlockAudio, { once: true });
+                document.addEventListener('touchstart', unlockAudio, { once: true });
+                document.addEventListener('keydown', unlockAudio, { once: true });
+            }
+            
+            play(soundName) {
+                if (!this.enabled) {
+                    console.log('Sounds disabled');
+                    return;
+                }
+                
+                const sound = this.sounds[soundName];
+                if (!sound) {
+                    console.warn(`Sound not found: ${soundName}`);
+                    return;
+                }
+                
+                try {
+                    // Reset to start
+                    sound.currentTime = 0;
+                    
+                    // Play the sound
+                    const playPromise = sound.play();
+                    
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            console.log(`Playing sound: ${soundName}`);
+                        }).catch(error => {
+                            // Autoplay was prevented - try to unlock
+                            console.warn(`Sound play prevented for ${soundName}:`, error);
+                            if (!this.audioUnlocked) {
+                                this.setupAudioUnlock();
+                            }
+                        });
+                    }
+                } catch (e) {
+                    console.error(`Error playing sound ${soundName}:`, e);
+                }
+            }
+        }
+        
+        // Player Manager
+        class PlayerManager {
+            constructor() {
+                this.storageKey = 'blitzResponseCurrentPlayer';
+                this.playersKey = 'blitzResponsePlayers';
+                this.currentPlayer = this.loadCurrentPlayer();
+            }
+            
+            loadCurrentPlayer() {
+                try {
+                    const saved = localStorage.getItem(this.storageKey);
+                    return saved || null;
+                } catch (e) {
+                    console.error('Failed to load current player:', e);
+                    return null;
+                }
+            }
+            
+            saveCurrentPlayer(playerName) {
+                try {
+                    localStorage.setItem(this.storageKey, playerName);
+                    this.currentPlayer = playerName;
+                    
+                    // Also save to players list
+                    const players = this.getAllPlayers();
+                    if (!players.includes(playerName)) {
+                        players.push(playerName);
+                        localStorage.setItem(this.playersKey, JSON.stringify(players));
+                    }
+                } catch (e) {
+                    console.error('Failed to save current player:', e);
+                }
+            }
+            
+            getAllPlayers() {
+                try {
+                    const saved = localStorage.getItem(this.playersKey);
+                    return saved ? JSON.parse(saved) : [];
+                } catch (e) {
+                    return [];
+                }
+            }
+            
+            clearAllPlayers() {
+                try {
+                    localStorage.removeItem(this.storageKey);
+                    localStorage.removeItem(this.playersKey);
+                    this.currentPlayer = null;
+                } catch (e) {
+                    console.error('Failed to clear players:', e);
+                }
+            }
+            
+            getCurrentPlayer() {
+                return this.currentPlayer || 'Player';
+            }
+        }
         
         // Game State
         class GameState {
@@ -700,6 +1400,14 @@
                 }
             }
             
+            clearLeaderboard() {
+                try {
+                    localStorage.removeItem(this.storageKey);
+                } catch (e) {
+                    console.error('Failed to clear leaderboard:', e);
+                }
+            }
+            
             saveScore(score, playerName = 'Player') {
                 const leaderboard = this.loadLeaderboard();
                 const entry = {
@@ -779,12 +1487,15 @@
                 this.collisionDetector = new CollisionDetector();
                 this.leaderboardManager = new LeaderboardManager();
                 this.achievementManager = new AchievementManager();
+                this.soundManager = new SoundManager();
+                this.playerManager = new PlayerManager();
                 this.isRunning = false;
                 this.lastFrameTime = 0;
                 this.particles = [];
                 
                 this.setupCanvas();
                 this.setupEventListeners();
+                this.updateUI();
                 this.updateLeaderboard();
             }
             
@@ -809,12 +1520,147 @@
                     this.handleClick(x, y);
                 });
                 
+                // Start game button
                 document.getElementById('startBtn').addEventListener('click', () => {
+                    if (!this.playerManager.currentPlayer) {
+                        this.showNameInput(() => this.startGame());
+                    } else {
+                        this.startGame();
+                    }
+                });
+                
+                // Play again button
+                document.getElementById('playAgainBtn').addEventListener('click', () => {
                     this.startGame();
                 });
                 
-                document.getElementById('playAgainBtn').addEventListener('click', () => {
-                    this.startGame();
+                // When start menu becomes visible, refresh dashboard
+                const startMenu = document.getElementById('startMenu');
+                const observer = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                            if (!startMenu.classList.contains('hidden')) {
+                                this.refreshDashboard();
+                            }
+                        }
+                    });
+                });
+                observer.observe(startMenu, { attributes: true });
+                
+                // New user button
+                document.getElementById('newUserBtn').addEventListener('click', () => {
+                    this.showNameInput((name) => {
+                        this.playerManager.saveCurrentPlayer(name);
+                        this.updateUI();
+                    });
+                });
+                
+                // Settings button
+                document.getElementById('settingsBtn').addEventListener('click', () => {
+                    this.showSettings();
+                });
+                
+                // Close settings
+                document.getElementById('closeSettingsBtn').addEventListener('click', () => {
+                    this.hideSettings();
+                });
+                
+                // Show credits
+                document.getElementById('showCreditsBtn').addEventListener('click', () => {
+                    this.showCredits();
+                });
+                
+                // Credits link in start menu
+                document.getElementById('creditsLink').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.getElementById('startMenu').classList.add('hidden');
+                    this.showCredits();
+                });
+                
+                // Instructions accordion toggle
+                document.getElementById('instructionsToggle').addEventListener('click', () => {
+                    this.toggleInstructions();
+                });
+                
+                // Close credits
+                document.getElementById('closeCreditsBtn').addEventListener('click', () => {
+                    this.hideCredits();
+                });
+                
+                // Restart game
+                document.getElementById('restartGameBtn').addEventListener('click', () => {
+                    if (confirm('Restart the game? Current progress will be lost.')) {
+                        this.restartGame();
+                    }
+                });
+                
+                // Clear players
+                document.getElementById('clearPlayersBtn').addEventListener('click', () => {
+                    if (confirm('Clear all player data? This cannot be undone.')) {
+                        this.playerManager.clearAllPlayers();
+                        this.leaderboardManager.clearLeaderboard();
+                        this.updateUI();
+                        this.updateLeaderboard();
+                        this.updateLeaderboard('gameOverLeaderboardList');
+                        alert('All player data cleared.');
+                    }
+                });
+                
+                // Exit button
+                document.getElementById('exitBtn').addEventListener('click', () => {
+                    this.showExitConfirmation();
+                });
+                
+                // Exit confirmation
+                document.getElementById('confirmExitBtn').addEventListener('click', () => {
+                    this.exitGame();
+                });
+                
+                document.getElementById('cancelExitBtn').addEventListener('click', () => {
+                    this.hideExitConfirmation();
+                });
+                
+                // Name input
+                document.getElementById('confirmNameBtn').addEventListener('click', () => {
+                    const name = document.getElementById('playerNameInput').value.trim();
+                    if (name) {
+                        this.playerManager.saveCurrentPlayer(name);
+                        this.hideNameInput();
+                        this.updateUI();
+                        if (this.nameInputCallback) {
+                            this.nameInputCallback(name);
+                            this.nameInputCallback = null;
+                        }
+                    }
+                });
+                
+                document.getElementById('cancelNameBtn').addEventListener('click', () => {
+                    this.hideNameInput();
+                });
+                
+                // Enter key in name input
+                document.getElementById('playerNameInput').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        document.getElementById('confirmNameBtn').click();
+                    }
+                });
+                
+                // Game duration input
+                document.getElementById('gameDuration').addEventListener('change', (e) => {
+                    const duration = parseInt(e.target.value, 10);
+                    if (duration >= 30 && duration <= 180) {
+                        saveGameDuration(duration);
+                    }
+                });
+                
+                // Background theme selector
+                document.getElementById('backgroundTheme').addEventListener('change', (e) => {
+                    this.changeBackgroundTheme(e.target.value);
+                });
+                
+                // Test sound button
+                document.getElementById('testSoundBtn').addEventListener('click', () => {
+                    this.testSound();
                 });
                 
                 // Power-up keys (for testing, can be removed)
@@ -828,6 +1674,9 @@
             }
             
             startGame() {
+                // Reload game duration in case it changed
+                loadGameDuration();
+                
                 this.state = new GameState();
                 this.spawner.clearAll();
                 this.state.gameStartTime = Date.now();
@@ -835,9 +1684,180 @@
                 
                 document.getElementById('startMenu').classList.add('hidden');
                 document.getElementById('gameOverMenu').classList.add('hidden');
+                document.getElementById('settingsMenu').classList.add('hidden');
+                
+                // Ensure audio is unlocked before playing
+                if (!this.soundManager.audioUnlocked) {
+                    // Try to unlock audio by playing a test sound
+                    const testSound = this.soundManager.sounds['start'];
+                    if (testSound) {
+                        testSound.play().then(() => {
+                            testSound.pause();
+                            testSound.currentTime = 0;
+                            this.soundManager.audioUnlocked = true;
+                            this.soundManager.play('start');
+                        }).catch(() => {
+                            // If unlock fails, still try to play
+                            this.soundManager.play('start');
+                        });
+                    } else {
+                        this.soundManager.play('start');
+                    }
+                } else {
+                    this.soundManager.play('start');
+                }
                 
                 this.lastFrameTime = performance.now();
                 this.gameLoop();
+            }
+            
+            restartGame() {
+                this.isRunning = false;
+                this.state = new GameState();
+                this.spawner.clearAll();
+                this.particles = [];
+                
+                document.getElementById('startMenu').classList.remove('hidden');
+                document.getElementById('gameOverMenu').classList.add('hidden');
+                document.getElementById('settingsMenu').classList.add('hidden');
+                
+                this.refreshDashboard();
+            }
+            
+            exitGame() {
+                this.isRunning = false;
+                this.hideExitConfirmation();
+                document.getElementById('gameOverMenu').classList.add('hidden');
+                document.getElementById('startMenu').classList.remove('hidden');
+                this.refreshDashboard();
+            }
+            
+            refreshDashboard() {
+                // Update player info
+                this.updateUI();
+                
+                // Update leaderboard
+                this.updateLeaderboard();
+                
+                // Update game duration display in instructions if needed
+                this.updateDashboardContent();
+            }
+            
+            updateDashboardContent() {
+                // Update any dynamic content on dashboard
+                // This ensures the dashboard shows current settings
+                const duration = CONFIG.GAME_DURATION;
+                // The instructions already mention it's configurable, so no need to update
+            }
+            
+            showNameInput(callback) {
+                this.nameInputCallback = callback;
+                document.getElementById('nameInputDialog').classList.remove('hidden');
+                document.getElementById('playerNameInput').value = '';
+                document.getElementById('playerNameInput').focus();
+            }
+            
+            hideNameInput() {
+                document.getElementById('nameInputDialog').classList.add('hidden');
+            }
+            
+            showSettings() {
+                document.getElementById('gameDuration').value = CONFIG.GAME_DURATION;
+                document.getElementById('backgroundTheme').value = loadBackgroundTheme();
+                document.getElementById('settingsMenu').classList.remove('hidden');
+            }
+            
+            changeBackgroundTheme(theme) {
+                applyBackgroundTheme(theme);
+                saveBackgroundTheme(theme);
+            }
+            
+            testSound() {
+                // Test sound playback
+                const testBtn = document.getElementById('testSoundBtn');
+                const originalText = testBtn.textContent;
+                testBtn.textContent = 'Playing...';
+                testBtn.disabled = true;
+                
+                // Try to unlock audio first
+                if (!this.soundManager.audioUnlocked) {
+                    const testSound = this.soundManager.sounds['correct'];
+                    if (testSound) {
+                        testSound.play().then(() => {
+                            testSound.pause();
+                            testSound.currentTime = 0;
+                            this.soundManager.audioUnlocked = true;
+                            this.soundManager.play('correct');
+                            setTimeout(() => {
+                                testBtn.textContent = '✓ Sound Working!';
+                                setTimeout(() => {
+                                    testBtn.textContent = originalText;
+                                    testBtn.disabled = false;
+                                }, 2000);
+                            }, 500);
+                        }).catch(err => {
+                            testBtn.textContent = '✗ Audio Blocked';
+                            console.error('Sound test failed:', err);
+                            setTimeout(() => {
+                                testBtn.textContent = originalText;
+                                testBtn.disabled = false;
+                            }, 2000);
+                        });
+                    }
+                } else {
+                    this.soundManager.play('correct');
+                    setTimeout(() => {
+                        testBtn.textContent = '✓ Sound Working!';
+                        setTimeout(() => {
+                            testBtn.textContent = originalText;
+                            testBtn.disabled = false;
+                        }, 2000);
+                    }, 500);
+                }
+            }
+            
+            changeBackgroundTheme(theme) {
+                applyBackgroundTheme(theme);
+                saveBackgroundTheme(theme);
+            }
+            
+            hideSettings() {
+                document.getElementById('settingsMenu').classList.add('hidden');
+                // Refresh dashboard when closing settings
+                this.refreshDashboard();
+            }
+            
+            showCredits() {
+                document.getElementById('creditsMenu').classList.remove('hidden');
+            }
+            
+            hideCredits() {
+                document.getElementById('creditsMenu').classList.add('hidden');
+                // Return to start menu if we came from there
+                if (document.getElementById('startMenu').classList.contains('hidden') && !this.isRunning) {
+                    document.getElementById('startMenu').classList.remove('hidden');
+                }
+            }
+            
+            toggleInstructions() {
+                const content = document.getElementById('instructionsContent');
+                const icon = document.getElementById('instructionsIcon');
+                
+                if (content.classList.contains('expanded')) {
+                    content.classList.remove('expanded');
+                    icon.classList.remove('expanded');
+                } else {
+                    content.classList.add('expanded');
+                    icon.classList.add('expanded');
+                }
+            }
+            
+            showExitConfirmation() {
+                document.getElementById('exitConfirmation').classList.remove('hidden');
+            }
+            
+            hideExitConfirmation() {
+                document.getElementById('exitConfirmation').classList.add('hidden');
             }
             
             handleClick(x, y) {
@@ -855,6 +1875,13 @@
                     this.state.increaseCombo();
                     this.state.enemiesCleared++;
                     
+                    // Play sound
+                    if (this.state.combo > 1) {
+                        this.soundManager.play('combo');
+                    } else {
+                        this.soundManager.play('correct');
+                    }
+                    
                     // Check for achievements
                     const achievements = this.achievementManager.checkAchievements(this.state);
                     achievements.forEach(ach => {
@@ -869,6 +1896,7 @@
                     this.state.score = Math.max(0, this.state.score - CONFIG.FRIENDLY_FIRE_PENALTY);
                     this.state.resetCombo();
                     this.state.mistakes++;
+                    this.soundManager.play('wrong');
                 }
                 
                 this.spawner.removeUtility(utility);
@@ -951,17 +1979,34 @@
             }
             
             updateUI() {
-                document.getElementById('scoreDisplay').textContent = this.state.score.toLocaleString();
-                
-                if (this.state.combo > 0) {
-                    document.getElementById('comboDisplay').textContent = 
-                        `Combo: ${this.state.combo}x (${this.state.multiplier.toFixed(1)}x)`;
-                } else {
-                    document.getElementById('comboDisplay').textContent = '';
+                // Update player info (always update, even when not in game)
+                const playerInfo = document.getElementById('playerInfo');
+                if (playerInfo) {
+                    playerInfo.innerHTML = `Player: <span class="player-name">${this.playerManager.getCurrentPlayer()}</span>`;
                 }
                 
-                document.getElementById('timerDisplay').textContent = 
-                    Math.ceil(this.state.timer).toString();
+                // Update score display (only if game is running)
+                if (this.isRunning && document.getElementById('scoreDisplay')) {
+                    document.getElementById('scoreDisplay').textContent = this.state.score.toLocaleString();
+                }
+                
+                if (this.isRunning) {
+                    if (this.state.combo > 0) {
+                        if (document.getElementById('comboDisplay')) {
+                            document.getElementById('comboDisplay').textContent = 
+                                `Combo: ${this.state.combo}x (${this.state.multiplier.toFixed(1)}x)`;
+                        }
+                    } else {
+                        if (document.getElementById('comboDisplay')) {
+                            document.getElementById('comboDisplay').textContent = '';
+                        }
+                    }
+                    
+                    if (document.getElementById('timerDisplay')) {
+                        document.getElementById('timerDisplay').textContent = 
+                            Math.ceil(this.state.timer).toString();
+                    }
+                }
                 
                 // Power-up indicator
                 let powerUpText = '';
@@ -984,10 +2029,12 @@
             
             endGame() {
                 this.isRunning = false;
+                this.soundManager.play('stop');
                 
-                // Save to leaderboard
+                // Save to leaderboard with current player name
+                const playerName = this.playerManager.getCurrentPlayer();
                 const isHighScore = this.leaderboardManager.isHighScore(this.state.score);
-                this.leaderboardManager.saveScore(this.state.score);
+                this.leaderboardManager.saveScore(this.state.score, playerName);
                 
                 // Update game over screen
                 document.getElementById('finalScore').textContent = this.state.score.toLocaleString();
@@ -1034,6 +2081,19 @@
         // Initialize game when page loads
         window.addEventListener('load', () => {
             const game = new Game();
+            
+            // Initialize timer display with loaded duration
+            document.getElementById('timerDisplay').textContent = CONFIG.GAME_DURATION.toString();
+            
+            // Check if player needs to be set
+            if (!game.playerManager.currentPlayer) {
+                setTimeout(() => {
+                    game.showNameInput((name) => {
+                        game.playerManager.saveCurrentPlayer(name);
+                        game.updateUI();
+                    });
+                }, 500);
+            }
         });
     </script>
 </body>

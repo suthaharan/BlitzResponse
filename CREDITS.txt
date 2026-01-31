@@ -1,0 +1,106 @@
+================================================================================
+BLITZ RESPONSE - ASSET CREDITS
+================================================================================
+
+This file lists all third-party assets used in Blitz Response and their licenses.
+
+================================================================================
+SOUND EFFECTS
+================================================================================
+
+All sound effects are sourced from Freesound.org under Creative Commons licenses.
+
+Source: https://freesound.org
+License: Creative Commons (CC0 or CC BY - see individual file attributions below)
+
+Sound Files Used:
+------------------
+- correct.mp3    - Positive feedback sound for correct enemy utility clears
+- wrong.mp3      - Error sound for friendly fire (clicking friendly utilities)
+- combo.mp3      - Rising sound effect for combo multipliers
+- start.mp3      - Game start sound/fanfare
+- stop.mp3       - Game over sound effect
+
+Note: All sounds were filtered by "Creative Commons 0" (CC0) license when 
+possible, which requires no attribution. If any sounds use CC BY license, 
+attribution is provided below.
+
+================================================================================
+ICONS & GRAPHICS
+================================================================================
+
+Font Awesome Icons
+------------------
+Source: https://fontawesome.com
+License: Font Awesome Free License (https://fontawesome.com/license/free)
+Usage: Icons loaded via CDN for utility types (smoke, fire, bolt, eye-slash, shield)
+Attribution: Not required for free tier, but credit appreciated
+
+Icons Used:
+- fa-smog (smoke icon)
+- fa-fire (molly/incendiary icon)
+- fa-bolt (flash icon)
+- fa-eye-slash (tripwire icon)
+- fa-shield-alt (friendly utility icon)
+
+================================================================================
+FONTS
+================================================================================
+
+Google Fonts
+------------
+Source: https://fonts.google.com
+License: Open Font License (OFL) - Free for commercial use
+
+Fonts Used:
+- Orbitron (Headings) - https://fonts.google.com/specimen/Orbitron
+- Rajdhani (Body text) - https://fonts.google.com/specimen/Rajdhani
+- Exo 2 (UI elements) - https://fonts.google.com/specimen/Exo+2
+
+All fonts are loaded via Google Fonts CDN and are free for commercial use.
+
+================================================================================
+BRAND COLORS & THEMING
+================================================================================
+
+Color References (No copyrighted assets used):
+----------------------------------------------
+- Cloud9 Blue (#03A9F4) - Used as color reference only, no logo assets
+- JetBrains Dark Theme (#2B2B2B) - Used as color reference only
+- VALORANT-inspired colors - Generic color schemes only, no copyrighted assets
+
+Note: This project uses only color references and generic theming. No actual
+brand logos, images, or copyrighted materials from Cloud9, JetBrains, or Riot
+Games are included.
+
+================================================================================
+LICENSE SUMMARY
+================================================================================
+
+All assets used in this project are:
+- Free for commercial use
+- Under Creative Commons or open licenses
+- Properly attributed where required
+
+Original Work:
+--------------
+- Game code and logic: Original work
+- Game design and mechanics: Original work
+- UI/UX design: Original work
+- Canvas rendering system: Original work
+
+================================================================================
+ATTRIBUTION STATEMENT FOR DEMO/SUBMISSION
+================================================================================
+
+For video presentations or submissions, you may use this statement:
+
+"All assets used in Blitz Response are under Creative Commons or open licenses.
+Sound effects are sourced from Freesound.org, icons from Font Awesome, and fonts
+from Google Fonts - all free for commercial use. The game code, design, and
+mechanics are original work."
+
+================================================================================
+END OF CREDITS
+================================================================================
+
